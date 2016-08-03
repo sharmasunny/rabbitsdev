@@ -1,0 +1,14 @@
+[20-Jun-2016 14:18:13 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 9
+[20-Jun-2016 14:18:35 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 9
+[20-Jun-2016 14:19:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:19:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:19:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:19:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:19:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:19:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:24:00 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:24:00 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:24:00 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:24:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:24:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52
+[20-Jun-2016 14:24:44 UTC] PHP Warning:  in_array() expects parameter 2 to be array, boolean given in /home/pccdevenv/public_html/app/inc/product-management/product-list-update.php on line 52

@@ -1,0 +1,10 @@
+[29-Jul-2016 04:49:27 UTC] PHP Fatal error:  Call to undefined function send_email() in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 5
+[29-Jul-2016 05:41:42 UTC] PHP Fatal error:  Call to undefined function send_email() in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 20
+[29-Jul-2016 09:38:05 UTC] PHP Fatal error:  Class '1' not found in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 13
+[01-Aug-2016 22:36:58 UTC] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 14
+[01-Aug-2016 22:37:27 UTC] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 14
+[01-Aug-2016 22:37:30 UTC] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 14
+[01-Aug-2016 22:37:35 UTC] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 14
+[01-Aug-2016 22:38:02 UTC] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/set_status.php on line 14
+[03-Aug-2016 17:18:02 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/data_orders.php on line 12
+[03-Aug-2016 17:21:27 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /home/pccdevenv/public_html/rabbitsdev/inc/orders/data_orders.php on line 12

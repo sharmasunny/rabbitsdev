@@ -52,13 +52,17 @@ if(isset($_POST['confirm_stat_submit'])) {
 	
 	// echo $order_stat;
 	// echo $order_id;
+	if($confirm_status != 0)
+	{
 	$query = "UPDATE " . $orders_table . " SET confirmation = '" . $confirm_status . "'
 	, order_driver_id = '" . $driver_id . "'
 	 WHERE order_id = " .$order_id;
 	// ECHO $query;die;
 	$conn->query($query);
+	}
+	
 	//echo "<script>alert('Order is Accepted !!');</script>";
-	echo "<script>window.location = '".HOME_URL."'</script>";
+	echo "<script>window.location.href = '".HOME_URL."/'</script>";
 
 			
 	}

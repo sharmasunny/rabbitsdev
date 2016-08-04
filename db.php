@@ -8,8 +8,8 @@ $servername = "localhost";
 
 //Arjun's | Changes Ends Here
 
-$username = "pccdevenv";
-$password = "WeRDevel0pers";
+$username = "root";
+$password = "toor";
 
 $database = "247storefinder";
 

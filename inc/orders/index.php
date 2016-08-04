@@ -31,7 +31,7 @@
 		 jQuery.ajax({
    		 url:"inc/driver-management/logout.php",  
         success: function () {     
-        window.location='http://rabbitsdev.mycloudsportal.com/inc/authentication-check/'   
+        window.location= 'localhost:8080/rabbitsdev/'   
         }
       });
 	
@@ -119,30 +119,33 @@ $users_sql = "select * from ".$orders_table.
 			if ( $users_records->num_rows > 0 ) { ?>
 				<script type="text/javascript">
 
- 
+
+        
 
 					jQuery(document).ready(function(){
-				/*		var t = jQuery('#userlist').dataTable({ 
-												 "columnDefs": [ {
-										            
-										            "orderable": false,
-										            "targets": 0
-										        } ],
-												"aaSorting": [[ 0, "desc" ]],
-											});
-											 t.on( 'order.dt search.dt', function () {
-					        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-					            cell.innerHTML = i+1;
-					        } );
-					    } ).draw();*/
+				
 					   var table = jQuery('#userlist').dataTable({
 					    	ajax : "inc/orders/data_orders.php",
+					    	"columns": [
+					            { "data": "order_id" },
+					            { "data": "pickup_zone" },					  
+					            { "data": "drop_zone" },
+					            { "data": "action"},
+					          
+					        ],
+
 					    	"aaSorting": [[ 0, "desc" ]], 
 
 					    });
-					    setInterval( function () {
-						    table.ajax.reload();
-						}, 3000 );
+					   	setInterval( function () {
+ 				  			table.api().ajax.reload(null,false);
+						}, 5000 );  
+						 $(document).ajaxComplete(function() {
+                 $(".order_stat").change(function() {
+			$( "#set-status" ).submit();
+		});
+					});
+					  
 						jQuery('#alluser').click(function(event) {  //on click
 						if(this.checked) { // check select status
 						    jQuery('.userid').each(function() { //loop through each checkbox
@@ -191,31 +194,9 @@ $users_sql = "select * from ".$orders_table.
 						else{
 							//echo $source->name.', '.$source->address1.', '.$source->address2.',</br> '.$source->city.', '.$source->zip;
 							?>
-						<button type="button" class="btn btn-link  btn-lg" data-toggle="modal" 
-						value ="<?php echo $source->zip; ?>" data-target="#myModal" ><?php echo $source->zip; ?> </button>
+						<button type="button" class="btn btn-link  btn-lg pickup-zone-model"   value ="<?php echo $source->zip; ?>" ><?php echo $source->zip; ?> </button>
 
-						<div class="modal fade" id="myModal" role="dialog">
-						    <div class="modal-dialog">
-						    
-						      <!-- Modal content-->
-						      <div class="modal-content">
-						        <div class="modal-header">
-						          <button type="button" class="close" data-dismiss="modal">&times;</button>
-						          <h4 class="modal-title">Pickup Address</h4>
-						        </div>
-						        <div class="modal-body">
-									<iframe width="550" height="500" frameBorder="0" src="//www.google.com/maps/embed/v1/place?q=<?php echo $source->zip; ?>&zoom=17&key=AIzaSyATRApu-iBQ61A76EeNR4NokqFMKM71IXw">
-									</iframe>
-						        </div>
-						         
-						        
-						        <div class="modal-footer">
-						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						        </div>
-						      </div>
-						      
-						    </div>
-						</div>
+						
 						
 						<?php }
 						?>	
@@ -229,29 +210,9 @@ $users_sql = "select * from ".$orders_table.
 						else{ 
 							//echo $destination->name.', '.$destination->address1.', '.$destination->address2.',</br> '.$destination->city.', '.$destination->zip;
 							//echo $destination->zip;?>
-<button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#myModal1" 
-value ="<?php echo $destination->zip; ?>"> <?php echo $destination->zip; ?> </button>
+							<button type="button" class="btn btn-link btn-lg dropoff-zone-model"   value ="<?php echo $destination->zip; ?>"> <?php echo $destination->zip; ?> </button>
 
-						 <div class="modal fade" id="myModal1" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Drop Address</h4>
-        </div>
-        <div class="modal-body">
-		  <iframe width="550" height="500" frameBorder="0" src="//www.google.com/maps/embed/v1/place?q=<?php echo $destination->zip; ?>&zoom=17&key=AIzaSyATRApu-iBQ61A76EeNR4NokqFMKM71IXw">
-		  </iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+
 					<?php }
 						?>	
 						</td>
@@ -277,10 +238,10 @@ value ="<?php echo $destination->zip; ?>"> <?php echo $destination->zip; ?> </bu
 											<input type="hidden" name="order_id" value="<?php echo $id; ?>" style="display:none;">
 											<select name="order_status" class="order_stat">
 												<option value="select" required>Please select status</option>
-												<option value="1"<?php set_selected('1', $selected_value); ?>>Picked UP</option>
-												<option value="2"<?php set_selected('2', $selected_value); ?>>On the way</option>
-												<option value="3"<?php set_selected('3', $selected_value); ?>>Deliverd</option>
-												<option value="4"<?php set_selected('4', $selected_value); ?>>FULFILLED</option>
+												<option value="1" <?php if($selected_value=='1'){echo "selected";} ?> >Picked UP</option>
+												<option value="2" <?php if($selected_value=='2'){echo "selected";} ?> >On the way</option>
+												<option value="3" <?php if($selected_value=='3'){echo "selected";}  ?> >Deliverd</option>
+												<option value="4" <?php if($selected_value=='4'){echo "selected";}  ?> >FULFILLED</option>
 											</select>
 											<!--input type="submit" name="submit" class="btn btn-success" value="Update"/--> 
 										</form>
@@ -303,18 +264,63 @@ value ="<?php echo $destination->zip; ?>"> <?php echo $destination->zip; ?> </bu
 	</p> -->
 	
 </div>
+
+
+
+
+
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+		  <iframe id="model-iframe" width="550" height="500" frameBorder="0" src="">
+		  </iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
 <script>
+
 	jQuery(document).ready(function() {
+		$(document).on("click",".pickup-zone-model",function() {
+        	$(".modal-title").html('Pick up location');
+			$('#model-iframe').attr('src', 'https://www.google.com/maps/embed/v1/place?q='+$(this).val()+'&zoom=17&key=AIzaSyATRApu-iBQ61A76EeNR4NokqFMKM71IXw');
+			$('#myModal').modal('show');
+    	});
+	
+		
+
+		$(document).on("click",".dropoff-zone-model",function() {
+			$(".modal-title").html('Drop off location');
+			$('#model-iframe').attr('src', 'https://www.google.com/maps/embed/v1/place?q='+$(this).val()+'&zoom=17&key=AIzaSyATRApu-iBQ61A76EeNR4NokqFMKM71IXw')
+			$('#myModal').modal('show');
+		});
+
 		 $("#adddriverform").validate();
 		 var j =$(".order_stat").val();
-		 console.log(j);
+		 //console.log(j);
 		if(j>=1){
 			for(i=j;i>=1;i--){
 				$(".order_stat option[value="+i+"]").prop('disabled', true);
 				$(".order_stat option[value="+i+"]").css('color','#999');		
 			}
 		}
-		// submit form without update button 
+		
 		$(".order_stat").change(function() {
 			$( "#set-status" ).submit();
 		});

@@ -19,7 +19,7 @@ session_start();
 <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/jquery-ui-timepicker-addon.css"/>
 <script src="<?php echo APP_URL; ?>/js/jquery-1.11.3.min.js"></script>
 <script src="<?php echo APP_URL; ?>/js/bootstrap.min.js"></script>
-<script src="<?php echo APP_URL; ?>/js/jquery.dataTables.js"></script>
+<script src="<?php echo APP_URL; ?>/js/jquery.dataTables.js"></script> 
 <script src="<?php echo APP_URL; ?>/js/jquery-ui.js"></script>
 <script src="<?php echo APP_URL; ?>/js/fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
 <script src="<?php echo APP_URL; ?>/js/fancybox/jquery.fancybox.js"></script>

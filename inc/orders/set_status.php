@@ -57,11 +57,25 @@ if ($result->num_rows > 0) {
 		}
 
 		$order_data  = json_decode($all_record);
+		// print_r($order_data);die;
+		$invoice = array("total_price"=>$order_data->total_price, "subtotal_price"=>$order_data->subtotal_price, "total_tax"=>$order_data->total_tax);	
+		$i=0;
+		foreach ($order_data->line_items as  $item_details) {
+			$invoice['product'][$i]['title'] = $item_details->title;
+			$invoice['product'][$i]['price'] = $item_details->price;
+			$invoice['product'][$i]['quantity'] = $item_details->quantity;
+			$invoice['product'][$i]['total'] = ($item_details->quantity*$item_details->price);
+			$i+=1;
+		}
+		
+		
+
 		$item_array = array();
 		foreach ($order_data->line_items as  $value) {
 			$item_array_id = array("id" =>$value->id,"quantity"=>$value->quantity);
 			array_push($item_array,$item_array_id);
-		}
+		}	
+
 
 
 		$tag_array = array(
@@ -90,7 +104,7 @@ if ($result->num_rows > 0) {
 			'subject' => 'Congratulation',
 			'msg_head' => 'Congratulation',
 			'msg_body_line_1' => ' Hi, '.$driver_fname .' '.$driver_mname .' '.$driver_lname .' ',
-			'msg_body_line_2' => 'you has been completed this order #'.$order_id .' '
+			'msg_body_line_2' => 'you have been completed this order #'.$order_id .' '
 		);
 
 
@@ -124,7 +138,16 @@ if ($result->num_rows > 0) {
 				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 				$response = curl_exec ($curl);
 				curl_close ($curl);
-				send_email($driver_email, $message_content);
+				//echo $customer_email;die;
+				$message_content_for_customer = array(	
+			'subject' => 'Order Completion',
+			'msg_head' => 'Order Completion',
+			'msg_body_line_1' => ' Hi, ',
+			'msg_body_line_2' => 'your order #'.$order_id .' detail below.',
+			'msg_body_line_3' => $invoice
+		);
+				send_email($customer_email, $message_content_for_customer,'invoice');
+				send_email($driver_email, $message_content,' ');die;
 			}
 			echo "<script>window.location = '".HOME_URL."'</script>";
 		}

@@ -250,51 +250,22 @@ $users_sql = "select * from ".$orders_table.
 		</tbody>
 	</table>
 	  </div>
-	<!-- <p>
-		<input type="submit" name="delete" class="add-new-h2 button-secondary" onclick="javascript:return confirm('Are you sure, want to delete all checked record?')" value="Delete">
-	</p> -->
+
 	
 </div>
 
 
 
 
-	<div class="modal fade"  role="dialog">
+	<div class="modal fade" id="order_model"  role="dialog">
 	    <div class="modal-dialog modal-lg">
 	       <div class="modal-content">
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
 	          <h4 class="modal-title">Order  Details</h4>
 	        </div>
-	        <div class="modal-body">
-				 <table class="table">
-				    <thead>
-				      <tr>
-				        <th>Order Id</th>
-				        <th>Title</th>
-				        <th>Quantity</th>
-				        <th>Name</th>
-				        <th>Address1</th>
-				        <th>Address2</th>
-				        <th>City</th>
-				        <th>zip code</th>
-				      </tr>
-				    </thead>
-				    <tbody>
-
-				      <tr>
-				        <td><?php echo "#".$id; ?></td>
-				        <td><?php echo $title; ?></td>
-				        <td><?php echo $quantity; ?></td>
-				        <td><?php echo $name; ?></td>
-				        <td><?php echo $original_location_address1; ?></td>
-				        <td><?php echo $original_location_address2; ?></td>
-				        <td><?php echo $original_location_city; ?></td>
-				        <td><?php echo $original_location_zip; ?></td>
-				      </tr>
-				     
-				    </tbody>
-				 </table>
+	        <div class="modal-body" id="order-body">
+				
 				
 	        </div>
 	        <div class="modal-footer">
@@ -372,7 +343,8 @@ $users_sql = "select * from ".$orders_table.
 		        data: {'id':id},
 		        type: "post",
 		        success: function(data){
-		          	console.log('data',data);
+		          	$('#order-body').html(data);
+		          	$('#order_model').modal('show');
 		        }
 		    });
 		});

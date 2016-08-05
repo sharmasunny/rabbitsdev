@@ -56,17 +56,10 @@ $driver_id =$_SESSION['driver_id'];
 $status_disabled = 0;
 function set_selected($desired_value, $new_value)
 {
-
     if($desired_value==$new_value)
     {
-	
-	echo ' selected="selected"';
+		echo ' selected="selected"';
     }
-
-   // if($status_disabled==0){
-	//echo ' disabled="disabled"';	
-    //}
-	
 }
 
 // echo $driver_id;
@@ -141,9 +134,9 @@ $users_sql = "select * from ".$orders_table.
  				  			table.api().ajax.reload(null,false);
 						}, 5000 );  
 						 $(document).ajaxComplete(function() {
-                 $(".order_stat").change(function() {
-			$( "#set-status" ).submit();
-		});
+				                 $(".order_stat").change(function() {
+							$( "#set-status" ).submit();
+						});
 					});
 					  
 						jQuery('#alluser').click(function(event) {  //on click
@@ -164,7 +157,7 @@ $users_sql = "select * from ".$orders_table.
 
 				 	// print_r($users_record);die;
 				 	// print_r(unserialize($users_recrd->driver_zone_id));die;
-
+				 	$index_id 		= $users_record['id'];
 					$id        		  = $users_record['order_id'];
 					$driver_zones    	= $users_record['driver_zone_id'];
 					$order_number	= $users_record['order_number'];
@@ -176,15 +169,13 @@ $users_sql = "select * from ".$orders_table.
 					$confirm_value = $users_record['confirmation'];
 					$source = json_decode($users_record['all_record'])->line_items['0']->origin_location; 
 					$destination = json_decode($users_record['all_record'])->line_items['0']->destination_location; 
-// echo $driver_zones;die;
-					// print_r($users_record);die;
+
 					?>
 				
 					<tr>
-					 <!-- <td>
-					
-					</td> -->
-						<td><?php echo "#".$id; ?></td>
+						<td>
+							<button type="button" class="btn btn-link  btn-lg orderdetails-model" id="<?php echo $index_id; ?>"  value ="<?php echo $id;?>"><?php echo "#".$id; ?></button>
+						</td>
 						<td nowrap>
 						<?php 
 						if(empty($source->zip))
@@ -268,6 +259,54 @@ $users_sql = "select * from ".$orders_table.
 
 
 
+	<div class="modal fade"  role="dialog">
+	    <div class="modal-dialog modal-lg">
+	       <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Order  Details</h4>
+	        </div>
+	        <div class="modal-body">
+				 <table class="table">
+				    <thead>
+				      <tr>
+				        <th>Order Id</th>
+				        <th>Title</th>
+				        <th>Quantity</th>
+				        <th>Name</th>
+				        <th>Address1</th>
+				        <th>Address2</th>
+				        <th>City</th>
+				        <th>zip code</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+
+				      <tr>
+				        <td><?php echo "#".$id; ?></td>
+				        <td><?php echo $title; ?></td>
+				        <td><?php echo $quantity; ?></td>
+				        <td><?php echo $name; ?></td>
+				        <td><?php echo $original_location_address1; ?></td>
+				        <td><?php echo $original_location_address2; ?></td>
+				        <td><?php echo $original_location_city; ?></td>
+				        <td><?php echo $original_location_zip; ?></td>
+				      </tr>
+				     
+				    </tbody>
+				 </table>
+				
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	</div>
+
+
+
 
 
 
@@ -325,6 +364,19 @@ $users_sql = "select * from ".$orders_table.
 			$( "#set-status" ).submit();
 		});
 		
+
+		$(document).on("click",".orderdetails-model",function() {
+			var id = $(this).val();
+		 	$.ajax({
+		        url: 'inc/orders/order_details.php',
+		        data: {'id':id},
+		        type: "post",
+		        success: function(data){
+		          	console.log('data',data);
+		        }
+		    });
+		});
+
 	});
 	
 </script>

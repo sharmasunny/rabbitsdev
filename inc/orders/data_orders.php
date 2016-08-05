@@ -41,8 +41,27 @@ $users_sql = "select * from ".$orders_table.
  	 	$selected_value = $users_record['order_status'];
  	 	$order_number	= $users_record['order_number'];
 		$customer_email 	  = $users_record['customer_email'];
+		$id = $users_record['order_id'];
+			$index_id 		= $users_record['id'];
+			$order_id = json_decode($users_record['all_record'])->order_id; 
+			$destination = json_decode($users_record['all_record'])->line_items['0']->destination_location; 
+			$title = json_decode($users_record['all_record'])->line_items['0']->title; 
+			$quantity = json_decode($users_record['all_record'])->line_items['0']->quantity; 
+			
+			$name = json_decode($users_record['all_record'])->line_items['0']->name; 
+			$original_location_name = json_decode($users_record['all_record'])->line_items['0']->origin_location->name; 
+			$original_location_address1 = json_decode($users_record['all_record'])->line_items['0']->origin_location->address1; 
+			$original_location_address2 = json_decode($users_record['all_record'])->line_items['0']->origin_location->address2; 
+			$original_location_city = json_decode($users_record['all_record'])->line_items['0']->origin_location->city; 
+			$original_location_zip = json_decode($users_record['all_record'])->line_items['0']->origin_location->zip; 
+			$subtotal_price = json_decode($users_record['all_record'])->subtotal_price; 
+			$total_price = json_decode($users_record['all_record'])->total_price; 
+
+
+
  	 	// echo $selected_value;die;
- 	 	$row[$i]['order_id'] = $id = $users_record['order_id'];
+ 	 	//$row[$i]['order_id'] = $id;
+ 	 	$row[$i]['order_id'] = '<button type="button" class="btn btn-link  btn-lg orderdetails-model" id="'.$index_id.'"  value ="'.$id.'" >#'.$id.'</button>';
  	 			if(empty($source_zip = json_decode($users_record['all_record'])->line_items['0']->origin_location->zip))
 						{
 							$row[$i]['pickup_zone'] = "No Postal Code";

@@ -7,14 +7,15 @@ include('../mail_lib/mail.php');
 $drivers_table = "drivers";	
 $orders_table = "orders";	
 $zones_table = "zones";	
+$stores_table = "stores";	
 $driver_id =$_SESSION['driver_id'];
 
 
 $api_url = 'https://6143cddd141541615eb006119cd232be:4f79e7163888d6bf77af717e923f37e9@24sevens.myshopify.com';
 
 
-$query_get_waiter = "SELECT * FROM ".$drivers_table." WHERE driver_id = ".$driver_id ;
-$result = $conn->query($query_get_waiter);
+$query_get_drivers = "SELECT * FROM ".$drivers_table." WHERE driver_id = ".$driver_id ;
+$result = $conn->query($query_get_drivers);
 
 if ($result->num_rows > 0) {
    
@@ -32,7 +33,10 @@ if ($result->num_rows > 0) {
 
 		echo "<script>window.location = '".HOME_URL."'</script>";
 
-	}else{
+	}
+
+	else{
+
 		$order_stat = $_POST['order_status'];
 		$order_id = $_POST['order_id'];
 		$customer_email = $_POST['customer_email'];
@@ -57,16 +61,47 @@ if ($result->num_rows > 0) {
 		}
 
 		$order_data  = json_decode($all_record);
-		// print_r($order_data);die;
+		
 		$invoice = array("total_price"=>$order_data->total_price, "subtotal_price"=>$order_data->subtotal_price, "total_tax"=>$order_data->total_tax);	
 		$i=0;
-		foreach ($order_data->line_items as  $item_details) {
+		foreach ($order_data->line_items as $item_details) {
+
+			/*
+			//$order_data->line_items[$j]['j'] = 'k';
+			// print_r($item_details);
+			$item_details['l']=4;
+			print_r($item_details);*/
+			//$picked_up_array = array();
+			$query_store_id = "SELECT product_store_list FROM products where product_id = $item_details->product_id";
+			$result_store_id = $conn->query($query_store_id);
+			while($row_store_id = $result_store_id->fetch_assoc()) {
+				$store_ids = unserialize($row_store_id['product_store_list']);
+				$j=0;	
+				foreach($store_ids as $single_store_id)
+				{
+				$order_data->line_items[$i]->stores_details[$j]['id'] = $single_store_id;
+				$query_store_email = "SELECT store_email,store_name,store_address FROM $stores_table where store_id = $single_store_id";
+				
+				$result_store_email = $conn->query($query_store_email);
+				while($row_store_email = $result_store_email->fetch_assoc()) {
+					$order_data->line_items[$i]->stores_details[$j]['email'] = $row_store_email['store_email'];
+					$order_data->line_items[$i]->stores_details[$j]['name'] = $row_store_email['store_name'];
+					$order_data->line_items[$i]->stores_details[$j]['address'] = $row_store_email['store_address'];
+				
+				}
+				$j+=1;
+				}			
+			}
 			$invoice['product'][$i]['title'] = $item_details->title;
 			$invoice['product'][$i]['price'] = $item_details->price;
 			$invoice['product'][$i]['quantity'] = $item_details->quantity;
 			$invoice['product'][$i]['total'] = ($item_details->quantity*$item_details->price);
+			$picked_up_array[$i]['product_name'] = $item_details->title;
+			$picked_up_array[$i]['product_quantity'] = $item_details->quantity;
+			$picked_up_array[$i]['store_name'] = $item_details->stores_details['0']['name'];
 			$i+=1;
 		}
+		// print_r($order_data);
 		
 		
 
@@ -114,6 +149,50 @@ if ($result->num_rows > 0) {
 
 		if(($conn->query($query)) === TRUE)
 		{ 
+			if($order_stat == '1')
+			{
+				// print_r($picked_up_array);
+				 /*foreach()
+				 {
+
+				 }*/
+				$url = $api_url . '/admin/shop.json';
+				$curl = curl_init();
+				curl_setopt($curl, CURLOPT_URL, $url);
+				curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+				$response_of_store = curl_exec ($curl);
+				curl_close ($curl);
+				$admin_email = json_decode($response_of_store, true)['shop']['email'];
+				$admin_name = json_decode($response_of_store, true)['shop']['name'];
+				//print_r($admin_email);die;
+
+			$message_content_for_admin = array(	
+			'subject' => 'Products pickedup details',
+			'msg_head' => 'Products picked by driver',
+			'msg_body_line_1' => ' Hi '.$admin_name.', ',
+			'msg_body_line_2' => 'Following products are picked by '.$driver_fname .' '.$driver_mname .' '.$driver_lname.'.',
+			'msg_body_line_3' => $picked_up_array
+			);	
+			$message_content_for_customer = array(	
+			'subject' => 'Products pickedup details',
+			'msg_head' => 'Products picked information',
+			'msg_body_line_1' => ' Hi, ',
+			'msg_body_line_2' => 'your order #'.$order_id .' pickedup by '.$driver_fname .' '.$driver_mname .' '.$driver_lname.'.',
+			'msg_body_line_3' => $picked_up_array
+			);
+			$message_content_for_driver = array(	
+			'subject' => 'Products pickedup details',
+			'msg_head' => 'Products picked information',
+			'msg_body_line_1' => ' Hi, '.$driver_fname .' '.$driver_mname .' '.$driver_lname.'.',
+			'msg_body_line_2' => 'you have been picked following products that are listed below',
+			'msg_body_line_3' => $picked_up_array
+			);
+				send_email($admin_email, $message_content_for_admin,'product_picked_admin');
+				send_email($customer_email, $message_content_for_customer,'product_picked_customer');
+				send_email($driver_email, $message_content_for_driver,'product_picked_driver');die;
+			}
 			if($order_stat == '4')
 			{
 
@@ -122,10 +201,10 @@ if ($result->num_rows > 0) {
 				        'line_items' => $item_array
 				    )
 				);
+				
 				$id_order = $order_data->id;
-				
-				
-				$url = $api_url . '/admin/orders/'.$id_order.'/fulfillments.json';
+
+ 				$url = $api_url . '/admin/orders/'.$id_order.'/fulfillments.json';
 
 				$curl = curl_init();
 				curl_setopt($curl, CURLOPT_URL, $url);
@@ -147,7 +226,7 @@ if ($result->num_rows > 0) {
 			'msg_body_line_3' => $invoice
 		);
 				send_email($customer_email, $message_content_for_customer,'invoice');
-				send_email($driver_email, $message_content,' ');die;
+				send_email($driver_email, $message_content,' ');
 			}
 			echo "<script>window.location = '".HOME_URL."'</script>";
 		}

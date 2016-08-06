@@ -53,11 +53,12 @@ if(isset($_POST['confirm_stat_submit'])) {
 	
 	// echo $order_stat;
 	// echo $order_id;
+
 	// if($confirm_status == 2)
 	// {
 	if(empty($order_zone_id))
 {
-	$query = "UPDATE " . $orders_table . " SET confirmation = '" . $confirm_status . "'
+	$query = "UPDATE " . $orders_table . " SET  confirmation = '" . $confirm_status . "'
 	, order_driver_id = '" . $driver_id . "'
 	 WHERE order_id = " .$order_id;
 }

@@ -104,6 +104,130 @@ if($type == "invoice") {
             </div>
         </div>
     </div>';} 
+    else if($type == "product_picked_admin") {
+	$message .= '<div class="ln_solid"></div>
+<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center"><strong>Products details</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="product_details" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Product Name</strong></th>
+                                    <th class="text-center"><strong>Store Name</strong></th>
+                                    <th class="text-center"><strong>Product Quantity</strong></th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>';
+                            foreach($message_cont["msg_body_line_3"] as $key)
+									{
+							$message .='<tr> 
+							<td align="">'.$key["product_name"].'</td>
+							<td align="center">'.$key["store_name"].'</td>
+							<td align="center">'.$key["product_quantity"].'</td>
+							 </tr>';
+
+									
+									}
+													
+							$message .='</tbody>
+								<tfoot>
+                              
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>';} 
+   else if($type == "product_picked_customer") {
+	$message .= '<div class="ln_solid"></div>
+<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center"><strong>Products details</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="product_details" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Product Name</strong></th>
+                                    <th class="text-center"><strong>Store Name</strong></th>
+                                    <th class="text-center"><strong>Product Quantity</strong></th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>';
+                            foreach($message_cont["msg_body_line_3"] as $key)
+									{
+							$message .='<tr> 
+							<td align="">'.$key["product_name"].'</td>
+							<td align="center">'.$key["store_name"].'</td>
+							<td align="center">'.$key["product_quantity"].'</td>
+							 </tr>';
+
+									
+									}
+													
+							$message .='</tbody>
+								<tfoot>
+                              
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>';} 
+    
+    else if($type == "product_picked_driver") {
+	$message .= '<div class="ln_solid"></div>
+<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center"><strong>Products details</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="product_details" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Product Name</strong></th>
+                                    <th class="text-center"><strong>Store Name</strong></th>
+                                    <th class="text-center"><strong>Product Quantity</strong></th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>';
+                            foreach($message_cont["msg_body_line_3"] as $key)
+									{
+							$message .='<tr> 
+							<td align="">'.$key["product_name"].'</td>
+							<td align="center">'.$key["store_name"].'</td>
+							<td align="center">'.$key["product_quantity"].'</td>
+							 </tr>';
+
+									
+									}
+													
+							$message .='</tbody>
+								<tfoot>
+                              
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>';}
 else
 {
 	$message .= '</br>';
@@ -150,7 +274,7 @@ $message .='
 </table>
 <p><span style="font-family: Arial,Helvetica,sans-serif;"> </span></p>';
 // echo $to;
-// echo $message;
+echo $message;
     if(mail($to,$message_cont["subject"],$message,$headers))
           {
            // echo $message;

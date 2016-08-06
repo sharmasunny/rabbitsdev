@@ -21,12 +21,13 @@ if(isset($_POST['confirm_stat_submit'])) {
 	$result_order = $conn->query($query_order);
 	while($row = $result_order->fetch_assoc()) {
 		$all_record = $row['all_record'];
+		$order_zone_id = $row['order_zone_id'];
 	}
-
 	$order_data  = json_decode($all_record);
-
 	$confirm_data = $_POST['confirm_stat_submit'];
-	$confirm_status = ($confirm_data=='Accept'?2:0);
+	$confirm_status = ($confirm_data == 'Accept'?2:0);
+	$driver_id = ($confirm_status == '2')?$_SESSION['driver_id']:0;
+
 
 	$products_array = array(
 	    "order"=>array(
@@ -52,14 +53,23 @@ if(isset($_POST['confirm_stat_submit'])) {
 	
 	// echo $order_stat;
 	// echo $order_id;
-	if($confirm_status != 0)
-	{
+	// if($confirm_status == 2)
+	// {
+	if(empty($order_zone_id))
+{
 	$query = "UPDATE " . $orders_table . " SET confirmation = '" . $confirm_status . "'
 	, order_driver_id = '" . $driver_id . "'
 	 WHERE order_id = " .$order_id;
+}
+else
+{
+		$query = "UPDATE " . $orders_table . " SET confirmation = '" . $confirm_status . "'
+	, order_driver_id = '" . $driver_id . "'
+	 WHERE order_id = " .$order_id;
+}
 	// ECHO $query;die;
 	$conn->query($query);
-	}
+	//}
 	
 	//echo "<script>alert('Order is Accepted !!');</script>";
 	echo "<script>window.location.href = '".HOME_URL."/'</script>";

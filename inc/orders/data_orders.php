@@ -96,25 +96,45 @@ $users_sql = "select * from ".$orders_table.
 							}
 							 
 							else{
-								if($selected_value =='4'){
-								$row[$i]['action'] = "FULFILLED";
-								}
-								else{		$selected = "selected";		 		
-										$row[$i]['action'] = '<form id="set-status" action="inc/orders/set_status.php" method="post" accept-charset="utf-8">
-											<input type="hidden" name="order_number" value="'. $order_number .'"/>
-											<input type="hidden" name="customer_email" value="'. $customer_email .'"/>
-											<input type="hidden" name="order_id" value= "'. $id .'" style="display:none;">
-											<select name="order_status" class="order_stat">
-												<option value="select" required>Please select status</option>
-												<option value="1" '.($selected_value=="1"?$selected:"").' > Picked UP</option>
-												<option value="2" '.($selected_value=="2"?$selected:"").' >On the way</option>
-												<option value="3" '.($selected_value=="3"?$selected:"").'>Deliverd</option>
-												<option value="4" '.($selected_value=="4"?$selected:"").' >FULFILLED</option>
-												
-											</select>
-										</form>';
 
-							 }	
+									switch ($selected_value) {
+										case 1:
+											$row[$i]['action'] =  '<input type="button" data-id="'.$id.'" class="btn btn-primary picked-up-item"  value="Picked up item"/>';
+										break;
+										case 2:
+											$row[$i]['action'] = '<input type="button" data-id="'.$id.'" class="btn btn-primary" id="delivered" value="Delivered"/>';
+										break;
+										case 3:
+											$row[$i]['action'] = '<input type="button" data-id="'.$id.'" class="btn btn-primary" id="delivered" value="Fulfilled"/>';
+										break;
+										case 4:
+											$row[$i]['action'] = "ORDER IS FULFILLED";
+										break;
+										default:
+											$row[$i]['action'] = "ORDER IS FULFILLED";
+										break;
+									}
+
+
+								// if($selected_value =='4'){
+								// $row[$i]['action'] = "FULFILLED";
+								// }
+								// else{		$selected = "selected";		 		
+								// 		$row[$i]['action'] = '<form id="set-status" action="inc/orders/set_status.php" method="post" accept-charset="utf-8">
+								// 			<input type="hidden" name="order_number" value="'. $order_number .'"/>
+								// 			<input type="hidden" name="customer_email" value="'. $customer_email .'"/>
+								// 			<input type="hidden" name="order_id" value= "'. $id .'" style="display:none;">
+								// 			<select name="order_status" class="order_stat">
+								// 				<option value="select" required>Please select status</option>
+								// 				<option value="1" '.($selected_value=="1"?$selected:"").' > Picked UP</option>
+								// 				<option value="2" '.($selected_value=="2"?$selected:"").' >On the way</option>
+								// 				<option value="3" '.($selected_value=="3"?$selected:"").'>Deliverd</option>
+								// 				<option value="4" '.($selected_value=="4"?$selected:"").' >FULFILLED</option>
+												
+								// 			</select>
+								// 		</form>';
+
+							 //}	
 							
 }
 $i +=1;

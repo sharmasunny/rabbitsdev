@@ -54,7 +54,7 @@ if(isset($_POST['confirm_stat_submit'])) {
 	// echo $order_id;
 	if($confirm_status != 0)
 	{
-	$query = "UPDATE " . $orders_table . " SET confirmation = '" . $confirm_status . "'
+	$query = "UPDATE " . $orders_table . " SET ".($confirm_status==2?"order_status=1 ,":"")." confirmation = '" . $confirm_status . "'
 	, order_driver_id = '" . $driver_id . "'
 	 WHERE order_id = " .$order_id;
 	// ECHO $query;die;

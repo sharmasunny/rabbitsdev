@@ -218,26 +218,26 @@ $users_sql = "select * from ".$orders_table.
 								</form>
 							<?php 
 							}else{ 
-								if($selected_value=='4'){
-									echo "FULFILLED";
-								}else{
-							 		?>
 
-										<form id="set-status" action="inc/orders/set_status.php" method="post" accept-charset="utf-8">
-											<input type="hidden" name="order_number" value="<?php echo $order_number; ?>"/>
-											<input type="hidden" name="customer_email" value="<?php echo $customer_email; ?>"/>
-											<input type="hidden" name="order_id" value="<?php echo $id; ?>" style="display:none;">
-											<select name="order_status" class="order_stat">
-												<option value="select" required>Please select status</option>
-												<option value="1" <?php if($selected_value=='1'){echo "selected";} ?> >Picked UP</option>
-												<option value="2" <?php if($selected_value=='2'){echo "selected";} ?> >On the way</option>
-												<option value="3" <?php if($selected_value=='3'){echo "selected";}  ?> >Deliverd</option>
-												<option value="4" <?php if($selected_value=='4'){echo "selected";}  ?> >FULFILLED</option>
-											</select>
-											<!--input type="submit" name="submit" class="btn btn-success" value="Update"/--> 
-										</form>
-
-							<?php }	} ?> 
+								switch ($selected_value) {
+									case 1:
+										echo '<input type="button" class="btn btn-primary picked-up-item"  value="Picked up item"/>';
+									break;
+									case 2:
+										echo '<input type="button" class="btn btn-primary" id="delivered" value="Delivered"/>';
+									break;
+									case 3:
+										echo '<input type="button" class="btn btn-primary" id="delivered" value="Fulfilled"/>';
+									break;
+									case 4:
+										echo "ORDER IS FULFILLED";
+									break;
+									default:
+										echo "ORDER IS FULFILLED";
+									break;
+								}
+							}
+							?>
 						</td>
 					</tr>
 				<?php $no += 1;							
@@ -278,6 +278,25 @@ $users_sql = "select * from ".$orders_table.
 
 
 
+	<div class="modal fade" id="picked_model"  role="dialog">
+	    <div class="modal-dialog modal-lg">
+	       <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Pickup  Details</h4>
+	        </div>
+	        <div class="modal-body" id="picked-body">
+				
+				
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-success">Done</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	</div>
 
 
 
@@ -349,6 +368,18 @@ $users_sql = "select * from ".$orders_table.
 		    });
 		});
 
+		$(document).on("click",".picked-up-item",function(){
+			var id = $(this).data("id");
+			$.ajax({
+		        url: 'inc/orders/order_details.php',
+		        data: {'id':id,'status':'picked_up'},
+		        type: "post",
+		        success: function(data){
+		          	$('#picked-body').html(data);
+		          	$('#picked_model').modal('show');
+		        }
+		    });
+		});
 	});
 	
 </script>
